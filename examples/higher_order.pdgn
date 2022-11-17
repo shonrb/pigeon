@@ -1,0 +1,47 @@
+map = (xs, f) -> {
+    return for x in xs {
+        yield f(x)
+    }
+}
+
+filter = (xs, f) -> {
+    return for x in xs {
+        if not f(x) {
+            continue
+        }
+        yield x
+    }
+}
+
+fold = (xs, a, f) -> {
+    accum = a
+    for x in xs {
+        accum = f(accum, x)
+    }
+    return accum
+}
+
+a = 0 to 10
+b = map   (a,    (x)    -> { return x*x        })
+c = filter(b,    (x)    -> { return x % 2 == 0 })
+d = fold  (c, 0, (x, y) -> { return x + y      })
+
+println(b)
+println(c)
+println(d)
+
+curry = (f) -> {
+    return (x) -> {
+        return (y) -> {
+            return f(x, y)
+        }
+    }
+}
+
+add = (a, b) -> {
+    return a + b
+}
+
+f = curry(add)
+res = f(2)(3)
+println(res)

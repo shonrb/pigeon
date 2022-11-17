@@ -1,0 +1,20 @@
+split = (str, delim) -> {
+    res = ""
+    prev_was_delim = false
+    return for c in str {
+        if c != delim {
+            prev_was_delim = false
+            res += string(c)
+            continue
+        }
+        if prev_was_delim {
+            continue
+        }
+        prev_was_delim = true
+        tmp = res
+        res = ""
+        yield tmp
+    }
+}
+
+print(split("This   is    a test string", ' '))

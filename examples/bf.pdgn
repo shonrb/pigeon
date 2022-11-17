@@ -1,0 +1,37 @@
+# A programming language in my programming language
+
+bf = (src) -> {
+    MEMORY = 100
+    cells  = [0] * MEMORY
+    ip     = 0
+    dp     = 0
+
+    step_to_matching = (dx, a, b) -> {
+        level = 0
+        while true {
+            ip += dx
+            ch = src[ip];
+            if   ch == a                { level += 1 }
+            elif ch == b and level != 0 { level -= 1 }
+            elif ch == b and level == 0 { break }
+        }
+    }
+
+    while ip < len(src) {
+        instr = src[ip]
+
+        if   instr == '>' { dp += 1                                             }
+        elif instr == '<' { dp -= 1                                             }
+        elif instr == '+' { cells[dp] += 1                                      }
+        elif instr == '-' { cells[dp] -= 1                                      }
+        elif instr == '.' { print(char(cells[dp]));                             }
+        elif instr == ',' { cells[dp] = int(input()[0]);                        }
+        elif instr == '[' { if cells[dp] == 0 { step_to_matching(1,  '[', ']') }}
+        elif instr == ']' { if cells[dp] != 0 { step_to_matching(-1, ']', '[') }}
+
+        ip += 1
+    }
+}
+
+source = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+bf(source)

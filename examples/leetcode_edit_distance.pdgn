@@ -1,0 +1,36 @@
+#
+# Leetcode problem 72: https://leetcode.com/problems/edit-distance/
+#
+
+min = (a, b) -> {
+    return if a < b { yield a } else { yield b }
+}
+
+minDistance = (word1, word2) -> {
+    len1 = len(word1)
+    len2 = len(word2)
+    dp = for _ in 0 to len1+1 { yield [0] * (len2+1) }
+    d1 = 1 to len1+1
+    d2 = 1 to len2+1
+    for i in d1 {
+        dp[i][0] = i
+    }
+    for i in d2 {
+        dp[0][i] = i
+    }
+    for i in d1 {
+        for j in d2 {
+            dp[i][j] = if word1[i-1] == word2[j-1] {
+                yield dp[i-1][j-1]
+            } else {
+                yield min(dp[i-1][j-1],
+                      min(dp[i  ][j-1],
+                          dp[i-1][j  ])) + 1
+            }
+        }
+    }
+    return dp[len1][len2]
+}
+
+println(minDistance("horse", "ros")           == 3)
+println(minDistance("intention", "execution") == 5)

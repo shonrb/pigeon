@@ -1,0 +1,18 @@
+bubblesort = (arr) -> {
+    n = len(arr)
+    while true {
+        sorted = true
+        for i in 0 to n-1 {
+            if arr[i] > arr[i+1] {
+                tmp = arr[i]
+                arr[i] = arr[i+1]
+                arr[i+1] = tmp
+                sorted = false
+            }
+        }
+        if sorted { break }
+    }
+    return arr
+}
+
+println(bubblesort([3, 5, 1, 2, 6, 4]))

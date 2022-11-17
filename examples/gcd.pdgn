@@ -1,0 +1,10 @@
+gcd = (a, b) -> {
+    while b > 0 {
+        r = a - a / b * b
+        a = b
+        b = r
+    }
+    return a
+}
+
+println(gcd(2740, 1760))

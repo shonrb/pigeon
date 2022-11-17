@@ -1,0 +1,17 @@
+rot13 = (s) -> {
+    res = ""
+    for i in 0 to len(s) {
+        chr = int(s[i])
+        ord = if chr >= int('a') and chr <= int('z') {
+            yield (chr - int('a') + 13) % 26 + int('a')
+        } elif chr >= int('A') and chr <= int('Z') {
+            yield (chr - int('A') + 13) % 26 + int('A')
+        } else {
+            yield chr
+        }
+        res += string(char(ord))
+    }
+    return res
+}
+
+println(rot13("Hello, World!"))

@@ -1,0 +1,56 @@
+#
+# Mandelbrot fractal generator
+# Usage: [interpreter binary] mandelbrot.pdgn > mandelbrot.ppv
+#
+WIDTH = 500
+HEIGHT = 500
+MAXVAL = 255
+MAX_ITERS = 255
+
+scale = 0.5
+xoff = -1.0
+yoff = -1.5
+
+in_main_cardioid = (real, imaginary) -> {
+    imag2 = imaginary * imaginary;
+    u  = 1 + real * (8 * real*real + (16*imag2-3));
+    c0 = real * u + imag2 * (8*imag2-3);
+    c1 = (real+1) * (real+1) + imag2;
+    return c0 < 3.0 / 32 or c1 < 1.0 / 16;
+}
+
+mandelbrot = (x, y) -> {
+    cr = float(y) / HEIGHT / scale + yoff
+    ci = float(x) / WIDTH / scale + xoff
+
+    zr = 0.0
+    zi = 0.0
+    iters = 0
+
+    if in_main_cardioid(cr, ci) {
+        iters = MAX_ITERS
+    } else {
+        while zi*zi + zr*zr < 4.0 and iters < MAX_ITERS {
+            new_r = (zr*zr - zi*zi) + cr
+            zi = 2 * zr * zi + ci
+            zr = new_r
+            iters += 1
+        }
+    }
+
+    r = if iters != MAXVAL { yield (iters + 75)  % 255 } else { yield 0 }
+    g = if iters != MAXVAL { yield (iters + 150) % 255 } else { yield 0 }
+    b = if iters != MAXVAL { yield (iters + 225) % 255 } else { yield 0 }
+
+    print(" " + string(r) + " " + string(g) + " " + string(b))
+}
+
+
+println("P3\n" + string(WIDTH) 
+    + " "    + string(HEIGHT) 
+    + "\n"   + string(MAXVAL) + "\n")
+for x in 0 to WIDTH {
+    for y in 0 to HEIGHT {
+        mandelbrot(x, y)
+    }
+}
