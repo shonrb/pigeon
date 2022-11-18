@@ -1,5 +1,5 @@
 # Pigeon
-This is an interpreter for a toy programming language I designed. I built this as a programming exercise, and also to learn about language implementation and design. The name comes from linguistics, where a pidgin is an incomplete language with vocabulary and grammar from multiple other languages.
+This is an interpreter for a toy programming language I designed. I built this as a programming exercise, and also to learn about language implementation. The name comes from linguistics, where a pidgin is an incomplete language with vocabulary and grammar from multiple other languages.
 
 ## Building
 Build using cargo:
@@ -10,7 +10,7 @@ Build using cargo:
 Full code examples can be found in /examples
 
 ### Control flow
-Pigeon is a structured language. It supports basic control flow structures:
+Pigeon is a structured language. It supports the following control flow structures:
 ```py
 # Conditional 
 if foo or bar {
@@ -33,7 +33,7 @@ for i in range {
 }
 ```
 ### Functions
-Functions in Pigeon are first class citizens. They are created with a function literal and must be bound to a variable to be used as a named function 
+Functions in pigeon are first class citizens. They are created with a function literal and must be bound to a variable to be used as a named function 
 ```py
 # literal
 (arg1, arg2) -> {}
@@ -90,14 +90,33 @@ println(f(2, 3))               # 5
 println(f("Hello, ", "World!")) # Hello, World!
 ```
 ### Expressions
-In Pigeon, every statement is an expression. Statements without a value default to ```nothing```.
+In pigeon, every statement is an expression. Statements without a value default to ```nothing```.
 ```py
 x = break # nothing
 func = () -> {}
 x = func() # nothing
 x = () # Nothing
 ```
-Scoped statements also evaluate to  ```nothing``` by default, but this can be changed using the ```yield``` keyword.
+Assignments and return statements evaluate to their right hand side value.
+```py
+x = y = 1  
+# x is 1 and y is 1
+
+x = (y += 1) + 2 
+# x is 4 and y is 2
+
+x = {
+    yield y = 1
+}
+# x is 1 and y is 1
+
+f = () -> {
+    return y = 0
+}
+x = f()
+# x is 0 and y is 0
+```
+Scoped statements evaluate to  ```nothing``` by default, but this can be changed using the ```yield``` keyword.
 ```py
 x = if true {} else {}                   # x == nothing
 x = if true { yield 0 } else { yield 1 } # x == 0
@@ -120,25 +139,6 @@ x = for i in 0 to 5 { yield i }
 
 x = for i in x {}
 # x == nothing
-```
-Assignments and return statements evaluate to their right hand side value
-```py
-x = y = 1  
-# x is 1 and y is 1
-
-x = (y += 1) + 2 
-# x is 4 and y is 2
-
-x = {
-    yield y = 1
-}
-# x is 1 and y is 1
-
-f = () -> {
-    return y = 0
-}
-x = f()
-# x is 0 and y is 0
 ```
 ## Improvements
 This project is my first attempt at implementing a language, so naturally there's a lot of room for improvement. Here are some things I'd do differently if I were to do this project again.
