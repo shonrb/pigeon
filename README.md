@@ -13,16 +13,16 @@ Full code examples can be found in /examples
 Pigeon is a structured language. It supports the following control flow structures:
 ```py
 # Conditional 
-if foo or bar {
+if cond1 or cond2 {
     ...
-} elif bar and baz {
+} elif cond3 and cond4 {
     ...
 } else {
     ...
 }
 
 # While
-while foo {
+while cond {
     ...
 }
 
@@ -40,12 +40,12 @@ Functions in pigeon are first class citizens. They are created with a function l
 
 # Calling a function literal
 () -> {
-    println("foo")
+    println("Hello")
 }()
 
 # Assigning to name
 foo = () -> {
-    println("bar")
+    println("World")
 }
 foo()
 ```
